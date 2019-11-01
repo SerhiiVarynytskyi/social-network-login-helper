@@ -1,0 +1,26 @@
+buildscript {
+
+    repositories {
+        google()
+        jcenter()
+        
+    }
+    dependencies {
+        classpath Plugins.androidGradlePlugin
+        classpath Plugins.kotlinGradlePlugin
+        classpath Plugins.googleServicesGradlePlugin
+        classpath PluginsTest.junitGradlePlugin
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

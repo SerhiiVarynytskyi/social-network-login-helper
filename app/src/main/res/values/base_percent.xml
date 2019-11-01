@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="content_layer_1_width_big" format="float" type="integer">0.92</item>
+    <item name="content_layer_2_width_big" format="float" type="integer">0.826</item>
+    <item name="content_layer_3_width_big" format="float" type="integer">0.726</item>
+
+    <item name="content_layer_2_button_width" format="float" type="integer">0.55</item>
+    <item name="content_layer_2_button_big_width" format="float" type="integer">0.76</item>
+
+</resources>

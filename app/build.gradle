@@ -1,0 +1,94 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: "../commonBuild/ktlint.gradle"
+
+// add test dependencies:
+apply from: "../commonBuild/test.gradle"
+
+android {
+    compileSdkVersion Versions.compileSdk
+    buildToolsVersion Versions.buildTools
+
+    defaultConfig {
+        applicationId App.Id
+
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+
+        versionCode Versions.appVersionCode
+        versionName Versions.appVersionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+
+        resValue "string", "FACEBOOK_APP_ID", getFbAppId()
+        resValue "string", "FB_LOGIN_PROTOCOL_SCHEME", getFbLoginProtocolScheme()
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation Libraries.kotlinStdLib
+    implementation Libraries.kotlinxCoroutinesCore
+    implementation Libraries.kotlinxCoroutinesAndroid
+    implementation Libraries.appCompat
+    implementation Libraries.ktxCore
+
+    //--------------------------------------------------------------------------
+    implementation Libraries.material
+    implementation Libraries.androidxAnnotation
+    implementation Libraries.androidxConstraintLayout
+    implementation Libraries.androidxLifecycleExtensions
+    implementation Libraries.androidxLifecycleViewModelKtx
+
+    //--------------------------------------------------------------------------
+    //DI
+    implementation Libraries.dagger
+    implementation Libraries.daggerAndroid
+    implementation Libraries.daggerAndroidSupport
+    kapt Libraries.daggerCompiler
+    kapt Libraries.daggerAndroidProcessor
+
+    implementation Libraries.glide
+    kapt Libraries.glideCompiler
+
+    //--------------------------------------------------------------------------
+    implementation Libraries.firebaseAnalytics
+
+    implementation Libraries.playServicesAuth
+    implementation Libraries.firebaseAuth
+    implementation Libraries.facebookLogin
+
+}
+
+static def getFbAppId(){
+    Properties props = new Properties()
+    props.load(new FileInputStream(new File('secrets.properties')))
+    return props['FACEBOOK_APP_ID']
+}
+
+static def getFbLoginProtocolScheme(){
+    Properties props = new Properties()
+    props.load(new FileInputStream(new File('secrets.properties')))
+    return props['FB_LOGIN_PROTOCOL_SCHEME']
+}
+
+
+apply plugin: 'com.google.gms.google-services'
